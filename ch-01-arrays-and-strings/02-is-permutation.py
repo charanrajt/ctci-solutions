@@ -1,21 +1,35 @@
-# Determine whether or not one string is a permutation of another.
+"""
+Determine whether or not a given string contains no duplicate characters.
+"""
 
-def is_permutation(str1, str2):
-  counter = Counter()
-  for letter in str1:
-    counter[letter] += 1
-  for letter in str2:
-    if not letter in counter:
-      return False
-    counter[letter] -= 1
-    if counter[letter] == 0:
-      del counter[letter]
-  return len(counter) == 0
+def check_perm(s1,s2):
+    if len(s1)>len(s2):
+        s1,s2=s2,s1
+    temp=dict()   
+    for i in s2:
+        if i in temp:
+            temp[i]=+1
+        else:
+            temp[i]=1
+    for i in s1:
+        if i in temp and temp[i]>0:
+           temp[i]=-1
+        else:
+            return False
+    return True     
+            
+ 
 
-class Counter(dict):
-  def __missing__(self, key):
-    return 0
+from nose.tools import assert_equal
 
-if __name__ == "__main__":
-  import sys
-  print(is_permutation(sys.argv[-2], sys.argv[-1]))
+class test(object):
+    
+    def test(self,sol):
+        assert_equal(sol('abbc','abc'),True)
+        assert_equal(sol('abbc','ad'),False)
+
+        print "ALL TEST CASES PASSED"
+
+# Run Tests
+t = test()
+t.test(check_perm)
