@@ -1,5 +1,5 @@
 """
-Determine whether or not a given string contains no duplicate characters.
+Add %20 at white space except at the end
 """
 
 def urlify(s):
