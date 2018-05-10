@@ -1,30 +1,45 @@
-# Determine whether the edit distance between two strings is less than 2.
+"""
+#Determine whether the edit distance between two strings is less than 2.
+"""
 
-def one_away(str1, str2):
-  len_diff = abs(len(str1) - len(str2))
-  if len_diff > 1:
-    return False
-  elif len_diff == 0:
-    difference_count = 0
-    for i in xrange(len(str1)):
-      if str1[i] != str2[i]:
-        difference_count += 1
-        if difference_count > 1:
-          return False
-    return True
-  else:
-    if len(str1) > len(str2):
-      longer, shorter = str1, str2
+def func_oneawy(s1,s2):
+    l1=len(s1)
+    l2=len(s2)
+    if l1<l2:
+        s1,s2=s2,s1
+        l1,l2=l2,l1
+    if l1-l2>1:
+        return False
+    cnt=0   
+    if l1==l2:
+         for i,j in zip(s1,s2):
+             if i!=j:
+                 cnt+=1   
+         return True                 
     else:
-      longer, shorter = str2, str1
-    shift = 0
-    for i in xrange(len(shorter)):
-      if shorter[i] != longer[i + shift]:
-        if shift or (shorter[i] != longer[i + 1]):
-          return False
-        shift = 1
-    return True
+        for i in xrange(len(s1)-1):
+            if s1[i+cnt]!=s2[i] :
+                cnt+=1
+            if cnt>1:
+                return False
+        return True
+                
+        
+        
+from nose.tools import assert_equal
 
-if __name__ == "__main__":
-  import sys
-  print(one_away(sys.argv[-2], sys.argv[-1]))
+class test(object):
+    
+    def test(self,sol):
+        assert_equal(sol('pale','ple'),True)
+        assert_equal(sol('pales','pale'),True)
+        assert_equal(sol('pale','bale'),True)
+        assert_equal(sol('pale','bae'),False)
+
+
+
+        print "ALL TEST CASES PASSED"
+
+# Run Tests
+t = test()
+t.test(func_oneawy)
